@@ -11,7 +11,7 @@ body {
     overflow: hidden;
   }
   
-#bgVideo {
+.bgVideo {
   position: fixed;
   top: 0;
   left: 0;
@@ -190,5 +190,6 @@ body {
   background-color: #b20710; /* Darker red on hover */
   transform: scale(1.05); /* Slight zoom effect */
 }
+
 
 

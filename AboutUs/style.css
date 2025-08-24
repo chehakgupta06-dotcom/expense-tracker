@@ -11,21 +11,25 @@ body {
     overflow: hidden;
   }
   
-  #heroVideo {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -2;
-  }
+#bgVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; /* Keep behind other content */
+}
   
   .overlay {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: -1;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3); /* Light dark overlay */
+  z-index: 0; /* Still behind text */
+}
   .features {
     display: flex;
     justify-content: center;
@@ -64,13 +68,13 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Shadow enhancement */
   }
   .hero-content {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    top: 50%;
-    transform: translateY(-50%);
-    color: white;
-  }
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-align: center;
+  top: 40%;
+  transform: translateY(-50%);
+}
   .hero-content h1 {
     font-family: 'Roboto', sans-serif;
     font-size: 4rem; /* Larger for emphasis */
@@ -186,4 +190,5 @@ body {
   background-color: #b20710; /* Darker red on hover */
   transform: scale(1.05); /* Slight zoom effect */
 }
+
 

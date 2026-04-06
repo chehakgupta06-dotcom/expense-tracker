@@ -730,9 +730,13 @@ form .form-group textarea:focus {
 }
 
 .rating i {
-  color: #ccc;
+  color: #ccc !important;
   cursor: pointer;
   transition: color 0.2s ease;
+  font-size: 2rem !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .rating i:hover,

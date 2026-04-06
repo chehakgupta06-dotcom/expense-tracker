@@ -6,18 +6,36 @@
   <title>Feedback - Budget Tracker</title>
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <!-- Add EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <style>
+    .rating {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .rating i {
+      font-size: 2rem;
+      color: #555;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.1s;
+    }
+    .rating i:hover,
+    .rating i.active {
+      color: #FFD700;
+      transform: scale(1.15);
+    }
+  </style>
 </head>
 <body>
   <nav>
-  <ul>
-    <li><a href="../index.html">Dashboard</a></li>
-    <li><a href="../faq.html">FAQ</a></li>
-    <li><a href="../about-us/index.html">About Us</a></li>
-    <li><a href="../feedback.html">Feedback</a></li>
-  </ul>
-</nav>
+    <ul>
+      <li><a href="../index.html">Dashboard</a></li>
+      <li><a href="../faq.html">FAQ</a></li>
+      <li><a href="../about-us/index.html">About Us</a></li>
+      <li><a href="../feedback.html">Feedback</a></li>
+    </ul>
+  </nav>
+
   <div class="container">
     <nav class="navbar">
       <div class="logo"><i class="fas fa-film"></i><br>TrackMySpend</div>
@@ -43,7 +61,7 @@
         </div>
 
         <div class="form-group">
-          <label>Rating</label>
+          <label>Rating *</label>
           <div class="rating">
             <i class="fas fa-star" data-rating="1"></i>
             <i class="fas fa-star" data-rating="2"></i>
@@ -69,13 +87,20 @@
   <script>
     let rating = 0;
 
-    // Initialize EmailJS
     emailjs.init("sfEsyfn3fwvKKXaAm");
 
-    // Star rating functionality
     document.querySelectorAll('.rating i').forEach(star => {
       star.addEventListener('click', () => {
         rating = parseInt(star.getAttribute('data-rating'));
+        updateStars();
+      });
+      star.addEventListener('mouseover', () => {
+        const hovered = parseInt(star.getAttribute('data-rating'));
+        document.querySelectorAll('.rating i').forEach(s => {
+          s.style.color = parseInt(s.getAttribute('data-rating')) <= hovered ? '#FFD700' : '#555';
+        });
+      });
+      star.addEventListener('mouseout', () => {
         updateStars();
       });
     });
@@ -84,6 +109,7 @@
       document.querySelectorAll('.rating i').forEach(star => {
         const starRating = parseInt(star.getAttribute('data-rating'));
         star.classList.toggle('active', starRating <= rating);
+        star.style.color = starRating <= rating ? '#FFD700' : '#555';
       });
     }
 
@@ -97,44 +123,22 @@
         return;
       }
 
-      const feedbackData = {
-        name,
-        email,
-        feedback,
-        rating,
-        date: new Date().toLocaleString()
-      };
-
-      // Store feedback locally
+      const feedbackData = { name, email, feedback, rating, date: new Date().toLocaleString() };
       const feedbacks = JSON.parse(localStorage.getItem('feedbacks') || '[]');
       feedbacks.push(feedbackData);
       localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
 
-      // Send email using EmailJS
       emailjs.send('service_lxnti3n', 'template_9gkt27u', {
-        name: name,
-        email: email,
-        feedback: feedback,
-        rating: rating,
-        date: feedbackData.date
+        name, email, feedback, rating, date: feedbackData.date
       })
-      .then((response) => {
-        console.log('SUCCESS!', response.status, response.text);
+      .then(() => {
         alert('Thank you for your feedback! We appreciate your input.');
         window.location.href = 'index.html';
       })
       .catch((err) => {
         console.error('FAILED...', err);
-        alert('There was an error sending your feedback. It has been saved locally, and we will try to send it later.');
+        alert('There was an error sending your feedback. It has been saved locally.');
       });
-    }
-
-    function resetFeedback() {
-      document.getElementById('feedback-name').value = '';
-      document.getElementById('feedback-email').value = '';
-      document.getElementById('feedback-text').value = '';
-      rating = 0;
-      updateStars();
     }
   </script>
 </body>

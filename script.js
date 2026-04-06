@@ -399,7 +399,7 @@ function processVoiceCommand(transcript) {
 function updateDashboard() {
   document.getElementById('total-budget').textContent = `₹${budget.amount.toFixed(2)}`;
   document.getElementById('amount-spent').textContent = `₹${budget.spent.toFixed(2)}`;
-  document.getElementById('remaining-budget').textContent = `₹${(budget.amount - budget.spent).toFixed(2)}`;
+  document.getElementById('remaining-budget').textContent = `₹${(budget.amount + budget.spent).toFixed(2)}`;
 
   const progress = (budget.spent / budget.amount) * 100;
   const progressBar = document.getElementById('budget-progress');
